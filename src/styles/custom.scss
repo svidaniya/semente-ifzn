@@ -1,0 +1,4 @@
+// Sobrescrever variáveis do Bootstrap antes da importação
+$primary: #ff6347; // Muda a cor primária para um tom de laranja
+
+@import "bootstrap/scss/bootstrap";
