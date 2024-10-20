@@ -4,12 +4,13 @@
         <div class="scroller">
           <section class="vh-100" id="home-main">
        
-            <navbar :fixed="false" :highlight="0"></navbar>
+            <navbar :fixed="false"></navbar>
             <div id="home-main-conteudo">
               <div id="conteudo">
+                
                 <h1><b>Semente</b> e sua trajetória</h1>
-                <p>A semente esta completando 15 anos de puras questões ambientais feitas pelos próprios alunos!</p>
-                <button id="btn-login" type="button" class="btn btn-success">Saiba mais</button>
+                <p>{{ anosDeExistencia }}</p>
+                <button disabled id="btn-login" type="button" class="btn btn-success">Saiba mais</button>
               </div>
             </div>
           </section>
@@ -80,14 +81,32 @@
   </style>
 
   <script>
-    import navbar from '../components/navbar.vue'
-    import topico from '../components/topico.vue'
-    export default {
-      name: 'home',
-      components: {
-        navbar,
-        topico
+  import navbar from '../components/navbar.vue';
+  import topico from '../components/topico.vue';
+
+  export default {
+    name: 'home',
+    components: {
+      navbar,
+      topico,
+    },
+    data() {
+      return {
+        anoCriacao: 2008,  // Ano de criação da Semente
+      };
+    },
+    computed: {
+      anosDeExistencia() {
+        const anoAtual = new Date().getFullYear();
+        const anos = anoAtual - this.anoCriacao;
+
+        // Verificar se é múltiplo de 5
+        if (anos % 5 === 0) {
+          return `A semente está completando ${anos} anos de puras questões ambientais discutidas pela comunidade interna e externa ao campus Natal - Zona Norte!`;
+        } else {
+          return `A Semente vem desde 2008 abordando questões ambientais discutidas pela comunidade interna e externa ao campus Natal - Zona Norte!`;
+        }
       }
     }
-  </script>
-  
+  };
+</script>

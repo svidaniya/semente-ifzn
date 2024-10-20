@@ -3,26 +3,15 @@
         <div class="scroller">
             <section id="login-main" class="vh-100">
                 <navbar :highlight='0' :fixed='true' :login="false"></navbar>
-                <topico
-                titulo="Automatize seu login com o SUAP"
-                conteudo="
-                    Agora, a Semente está integrada com a API do SUAP, permitindo que alunos automatizem o processo de login. Essa integração torna o login mais rápido e seguro, economizando tempo e esforço.
-                    
-                    Para quem prefere realizar o login manualmente, é só scrollar para baixo ...
-                "
-                :botao="{texto:'login com', imagem: 'suaplogo.svg', callback : loginSUAP,estilo: 'btn-dark'}"
-            />
-            </section>
-            <section id="login-conteudo">
                 <form @submit.prevent="loginManual">
-                    <img id="login-logo" src="../assets/logo2.svg">
-                    <h1>Logando na sua conta</h1>
-                    <label for="login_matricula">Matricula: </label>
-                    <input required type="text" class="form-control" id="login_matricula"  placeholder="Digite sua matricula">
-                    <label for="login_senha">Senha: </label>
-                    <input required type="password" class="form-control" id="login_senha"  placeholder="Digite sua senha">
-                    <button id="btn-login" type="submit" class="btn btn-dark">login</button>
-                </form>
+                  <img id="login-logo" src="../assets/logo2.svg">
+                  <h1>Logando na sua conta</h1>
+                  <label for="login_matricula">Matricula: </label>
+                  <input required type="text" class="form-control" id="login_matricula"  placeholder="Digite sua matricula">
+                  <label for="login_senha">Senha: </label>
+                  <input required type="password" class="form-control" id="login_senha"  placeholder="Digite sua senha">
+                  <button id="btn-login" type="submit" class="btn btn-dark">login</button>
+              </form>
             </section>
         </div>
 
@@ -41,8 +30,6 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-    }
-    #login-conteudo{
         min-height: 100vh;
         color: white;
         width: 100%;
@@ -72,8 +59,8 @@
                 margin-bottom: 50px;
             }
         }
-
     }
+
 
   }
   
@@ -83,9 +70,9 @@
   import introducao from '../components/introducao.vue';
   import navbar from '../components/navbar.vue';
   import topico from '../components/topico.vue';
-  import Cookies from '../assets/suap/js.cookie';
-  import SuapClient from '../assets/suap/client.js';
-  
+  import { inject } from 'vue';
+  import Cookies from 'js-cookie';
+
   export default {
     name: 'login',
     components: {
@@ -95,26 +82,14 @@
     },
     data() {
       return {
-        suap: null, // Variável para armazenar a instância do cliente SUAP
+
+        servidor: inject('servidor'),// Variável para armazenar a instância do cliente SUAP
       };
     },
     mounted() {
-      // Inicializa o cliente SUAP
-      this.suap = new SuapClient(
-        "https://suap.ifrn.edu.br",
-        'sOcB9UZvCic313AFax4plVphNTmVQTdVER9H4QG5',
-        'http://localhost:5173/login',
-        'identificacao email'
-      );
-      this.suap.init();
+
     },
     methods: {
-      loginSUAP() {
-        // Lógica para autenticação do usuário
-        const loginURL = this.suap.getLoginURL();
-        console.log('URL de login do SUAP:', loginURL);
-        window.location.href = loginURL; // Redireciona para a página de login do SUAP
-      },
       async loginManual() {
         let matricula = document.getElementById('login_matricula').value;
         let senha = document.getElementById('login_senha').value;
@@ -129,15 +104,26 @@
           senha: senha
         };
         try{
-            const response = await fetch('http://localhost:3000/login', {
+            const response = await fetch(this.servidor + '/login', {
                 method: 'POST',
                 headers: {
                 'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(dados),
+            }).then((response) => {
+                return response.json();
             });
-        }catch{
 
+            console.log(response);
+            if(response.status == "OK"){
+                Cookies.set('semente_token', JSON.stringify(response.token),{ expires: 3});
+                Cookies.set('usuario', JSON.stringify(response.usuario),{ expires: 3});
+                window.location = '/';
+            }else{
+              this.$notify({ type: "error", title: "Usuário ou senha inválidos" });
+            }
+        }catch (error) {
+            console.error(error);
         }
 
       },

@@ -8,6 +8,13 @@ import gameficacao from '../views/gameficacao.vue'
 import cadastro from '@/views/cadastro.vue'
 import login from '@/views/login.vue'
 import desafio    from '@/views/desafio.vue'
+import controle    from '@/views/controle.vue'
+import cadastro_suap from '@/views/cadastro_suap.vue'
+import storytelling from '@/views/storytelling.vue'
+import capitulo from '@/views/capitulo.vue'
+import evento_codigo_mostrar from '@/views/evento_codigo_mostrar.vue'
+import evento_codigo from '@/views/evento_codigo.vue'
+import evento from '@/views/evento.vue'
 const routes = [
   {
     path: '/',
@@ -35,6 +42,11 @@ const routes = [
     component: gameficacao
   },
   {
+    path: '/gamificacao',
+    name: 'Gamificação',
+    component: gameficacao
+  },
+  {
     path: '/cadastro',
     name: 'cadastro',
     component: cadastro},
@@ -47,6 +59,44 @@ const routes = [
     path: '/desafio/:numero',
     name: 'desafio',
     component: desafio,
+    props: true
+  },
+  {
+    path: '/controle',
+    name: 'controle',
+    component: controle
+  },
+  {
+    path: '/cadastro/suap',
+    name: 'cadastro_suap',
+    component: cadastro_suap
+  },
+  {
+    path: '/storytelling',
+    name: 'storytelling',
+    component: storytelling
+  },
+  {
+    path: '/storytelling/capitulo/:numero',
+    name: 'capitulo',
+    component: capitulo,
+    props: true
+  },
+  {
+    path: '/evento/mostrar/:codigo',
+    name: 'evento_codigo_mostrar',
+    component: evento_codigo_mostrar,
+    props: true
+  },
+  {
+    path: '/evento',
+    name: 'evento_codigo',
+    component: evento_codigo
+  },
+  {
+    path: '/evento/:codigo',
+    name: 'evento',
+    component: evento,
     props: true
   }
 

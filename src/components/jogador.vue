@@ -1,8 +1,8 @@
 <template>
     <div :style="{backgroundColor: invertido ? '#247474' : '#FFFFFF', borderColor: eu ? '#FAED7E' : 'transparent'}" class="jogador-placar">
-        <p :style="{color: invertido ? '#FFFFFF' : '#247474'}" class="jogador-placar-nome">{{nome}}</p>
+        <p :style="{color: invertido ? '#FFFFFF' : '#247474',paddingRight: lugar > 3 ? '75px' : '0'}" class="jogador-placar-nome">{{nome}}<br>{{matricula}}</p>
         <div class="jogador-placar-pontuacao">
-            <p :style="{color: invertido ? '#FFFFFF' : '#247474'}" class="jogador-placar-pontos">{{pontos}}</p>
+            <p :style="{color: invertido ? '#FFFFFF' : '#247474',marginLeft: lugar <= 3 ? '60px' : '0'}" class="jogador-placar-pontos">{{pontos}}</p>
             <img class="jogador-medalha" v-if="lugar === 1" src="../assets/ouro.svg">
             <img class="jogador-medalha" v-else-if="lugar === 2" src="../assets/prata.svg">
             <img class="jogador-medalha" v-else-if="lugar === 3" src="../assets/bronze.svg">
@@ -13,7 +13,7 @@
 
 <style scoped>
     .jogador-placar{
-        border: 2px ridge     ;
+        border: 2px ridge;
         margin-bottom: 25px;
         width: 100%;
         display: flex;
@@ -27,11 +27,15 @@
             margin-top: 15px;
             margin-bottom: 15px;
             width: 150px;
+            text-align: center;
         }
         .jogador-placar-pontuacao{
             display: flex;
             flex-direction: row;
             align-items: center;
+            p{
+                width: min-content;
+            }
             .jogador-medalha{
                 margin: 0;
                 width: 55px;
@@ -61,6 +65,10 @@ export default {
         lugar : {
             type: Number,
             default: 0
+        },
+        matricula : {
+            type: String,
+            default: 'matricula'
         },
         eu : {
             type: Boolean,

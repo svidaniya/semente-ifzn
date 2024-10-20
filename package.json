@@ -9,14 +9,23 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@kyvg/vue3-notification": "^3.4.0",
+    "@vueuse/sound": "^2.0.1",
     "animate.css": "^4.1.1",
     "aos": "^2.3.4",
+    "axios": "^1.7.7",
+    "baklavajs": "^2.4.5",
     "bootstrap": "^5.3.3",
     "jquery": "^3.7.1",
     "js-cookie": "^3.0.5",
+    "marked": "^14.1.2",
+    "qrcode": "^1.5.4",
+    "quill": "^2.0.2",
     "sass": "^1.79.4",
+    "tweakpane": "^4.0.4",
     "vue": "^3.4.29",
-    "vue-router": "^4.4.5"
+    "vue-router": "^4.4.5",
+    "vuetify": "^3.7.0-beta.1"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.5",

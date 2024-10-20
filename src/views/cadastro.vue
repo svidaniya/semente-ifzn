@@ -6,12 +6,12 @@
                 <topico
                 titulo="Automatize seu cadastro com o SUAP"
                 conteudo="
-                    Agora, a Semente está integrada com a API do SUAP, permitindo que alunos automatizem o processo de cadastro e cadastro. Essa integração torna o cadastro mais rápido e seguro, economizando tempo e esforço.
-                    
-                    Para quem prefere cadastrar manualmente, é só scrollar para baixo ...
+                  Agora, a Semente está integrada com a API do SUAP, permitindo que os alunos simplifiquem o processo de inscrição. Com essa integração, tudo se torna mais rápido e seguro, economizando tempo e esforço.
+              
+                  Para aqueles que preferem fazer o registro manualmente, basta rolar para baixo...
                 "
-                :botao="{texto:'Cadastrar com', imagem: 'suaplogo.svg', callback : cadastroSUAP,estilo: 'btn-dark'}"
-            />
+                :botao="{texto:'Utilizar', imagem: 'suaplogo.svg', callback : cadastroSUAP, estilo: 'btn-dark'}"
+              />  
             </section>
             <section id="cadastro-conteudo">
                 <form @submit.prevent="cadastroManual">
@@ -91,6 +91,7 @@
   import topico from '../components/topico.vue';
   import Cookies from '../assets/suap/js.cookie';
   import SuapClient from '../assets/suap/client.js';
+  import { inject } from 'vue';
   
   export default {
     name: 'cadastro',
@@ -101,15 +102,17 @@
     },
     data() {
       return {
-        suap: null, // Variável para armazenar a instância do cliente SUAP
+        suap: null,
+        servidor: inject('servidor'),
+        site: inject('site'),
       };
     },
     mounted() {
       // Inicializa o cliente SUAP
       this.suap = new SuapClient(
         "https://suap.ifrn.edu.br",
-        'sOcB9UZvCic313AFax4plVphNTmVQTdVER9H4QG5',
-        'http://localhost:5173/cadastro',
+        'SECRET_KEY_HERE',
+        this.site + '/cadastro/suap',
         'identificacao email'
       );
       this.suap.init();
@@ -145,13 +148,24 @@
           senha: senha,
         };
         try{
-            const response = await fetch('http://localhost:3000/cadastro', {
+            const cadastrando = await fetch(this.servidor + '/cadastro/usuario', {
                 method: 'POST',
                 headers: {
                 'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(dados),
+            }).then((response) => {
+                return response.json();
             });
+            if (cadastrando.status == "OK") {
+                    this.$notify({ type: "success", title: "Usuário cadastrado com sucesso" });
+                    setTimeout(() => {
+                        window.location.href = "login";
+                    },2000)
+            }else{
+                this.$notify({ type: "error", title: "Erro ao cadastrar o usuário" });
+            }
+
         }catch{
 
         }

@@ -246,7 +246,6 @@ var Token = function(value, expirationTimeInSeconds, scope) {
                   "Accept": "application/json"},
 		type: 'GET',
 		success: function(response) {
-			console.log(response);
 			callback(response);
 		},
 		error: function(response) {

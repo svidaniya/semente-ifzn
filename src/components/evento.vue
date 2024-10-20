@@ -18,6 +18,7 @@
                     <ul class="evento-informacoes">
                         <li>Hórario - {{horario[0]}} as {{horario[1]}}</li>
                         <li v-if="informacoes" v-for="informacao in informacoes" :key="informacao">{{informacao}}</li>
+                        <li v-if="pontuacao > 0" >Você ganhará {{pontuacao}} pontos se participar deste evento!</li>
                     </ul>
                 </div>
     
@@ -31,6 +32,7 @@
 
 <style> 
     #evento{
+        
         display: flex;
         justify-content: center;
         align-items: center;
@@ -47,22 +49,28 @@
                 display: flex;
                 flex-direction: column;
                 .evento-dia{
+                    align-self: center;
+                    text-align: center !important;
                     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
                     padding: 5px 50px;
                     border-radius: 25px;
                     font-size: 65px;
                     font-weight: bold;
                     margin-bottom: 25px;
+                    max-width: 175px;
                 }
                 .evento-mes{
-                    text-align: center;
+
+                    text-align: center !important;
                     font-size: 30px;
+                    max-width: 200px;   
                     padding: 5px;
                     font-weight: bold;
                     color: #3DBB99;
                     background-color: #FBEE8A;
                     border-radius: 25px;
                     margin-bottom: 25px;
+                    
                     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
                 }
                 .evento-hora, .evento-organizador, .evento-local{
@@ -73,6 +81,12 @@
                 .evento-hora{
                     font-size: 35px;
                     font-weight: bold;
+                }
+                .evento-organizador {
+                    white-space: nowrap;       /* Impede que o texto quebre em várias linhas */
+                    overflow: hidden;          /* Oculta o texto que ultrapassa o container */
+                    text-overflow: ellipsis;   /* Adiciona reticências (...) ao final do texto */
+                    max-width: 200px;          /* Limita a largura máxima do texto */
                 }
                 .evento-organizador, .evento-local{
                     font-weight: 300;
@@ -90,13 +104,30 @@
                 #evento-titulo-subtitulo{
                     display: flex;
                     flex-direction: column;
+                    max-width: 400px;
                     .evento-titulo{
                         font-weight: bold;
-                        font-size: 30px;
+                        font-size: 40px;
+                        text-align: center;
                     }
                     .evento-subtitulo{
-                        font-size: 30px;
-                        margin-bottom: 25px;
+                        text-align: center;
+                        font-size: 25px;
+                        margin-top: 15px;
+                        margin-bottom: 100px;
+                    }
+
+                }
+                #evento-lista-informacoes{
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    ul{
+                        text-align: justify;
+                    }
+                    .evento-informacoes{
+                        font-size: 15px;
+                        
                     }
                 }
             }
@@ -150,6 +181,10 @@ export default {
         invertido: {
             type: Boolean,
             default: false
+        },
+        pontuacao: {
+            type: Number,
+            default: 0
         }
     }
 }

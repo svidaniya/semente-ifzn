@@ -4,9 +4,14 @@
         <div id="navbar-links">
             <a class="navbar-link" v-for="(link, index) in links" :href="link[1]" :class="index == highlight ? 'highlight' : ''">{{link[0]}}</a>
         </div>
-        <div id="navbar-buttons">
+        <div v-if="this.usuario.dados == undefined" id="navbar-buttons">
             <a href="/login" role="button" v-if="login" id="btn-login" type="button" class="btn btn-success">Entrar</a>
             <a href="/cadastro" role="button" v-if="cadastrar" id="btn-register" type="button" class="btn btn-dark">Cadastrar</a>
+
+        </div>
+        <div v-if="this.usuario.dados != undefined" id="navbar-buttons">
+
+            <button @click="logout" href="/cadastro" id="btn-logout" type="button" class="btn btn-dark">Logout</button>
 
         </div>
     </div>
@@ -80,6 +85,8 @@
 </style>
 
 <script>
+import { inject } from 'vue';
+
     export default {
         name: 'navbar',
         props: {
@@ -97,13 +104,22 @@
         data() {
             return {
                 links: [
-                    ['Home', '/'], 
-                    ['Gameficação', '/gameficacao'], 
+    
+                    ['Gamificação', '/gamificacao'], 
+                    ['Storytelling', '/storytelling'], 
                     ['Regulamento', '/regulamento'], 
                     ['Pontuação', '/pontuacao'], 
                     ['Programação', '/programacao']
                     
                 ],
+                usuario : inject('usuario'),
+                clearCookies: inject('clearCookies')
+            }
+        },
+        methods: {
+            logout() {
+                this.clearCookies();
+                window.location.href = "/";
             }
         }
     }
